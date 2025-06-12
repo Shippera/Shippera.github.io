@@ -4,7 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shippera - Premium Imports</title>
-    <style>
+    <style> 
+        :root {
+      --primary: #ffffff;
+      --secondary: #000000;
+      --gray-light: #f5f5f5;
+      --gray-dark: #333333;
+      --accent: #0066cc;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--primary);
+      color: var(--secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .content-wrapper {
+      width: 100%;
+      max-width: 800px;
+    }
+    header {
+      background: var(--gray-light);
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--gray-dark);
+      margin-bottom: 2rem;
+    }
+    h1 {
+      color: var(--secondary);
+      font-size: 2.5rem;
+      margin-top: 0;
+    }
+    .product-list {
+      background: var(--gray-light);
+      padding: 1.5rem;
+      border-radius: 5px;
+      margin-bottom: 2rem;
+    }
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: white !important;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    footer {
+      background: var(--gray-dark);
+      color: var(--primary);
+      text-align: center;
+      padding: 1.5rem;
+      width: 100%;
+    }
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
