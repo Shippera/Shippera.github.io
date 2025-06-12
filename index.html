@@ -1,183 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shippera - Premium Imports</title>
-    <style> 
-        :root {
-      --primary: #ffffff;
-      --secondary: #000000;
-      --gray-light: #f5f5f5;
-      --gray-dark: #333333;
-      --accent: #0066cc;
+  <title>Shippera Imports</title>
+  <style>
+    :root {
+      --white: #ffffff;
+      --black: #000000;
+      --gray: #f5f5f5;
+      --blue: #0066cc;
     }
     body {
       font-family: Arial, sans-serif;
-      background: var(--primary);
-      color: var(--secondary);
+      background: var(--white);
+      color: var(--black);
+      margin: 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      margin: 0;
+    }
+    .main-container {
+      width: 100%;
+      max-width: 800px;
       padding: 20px;
-    }
-    .content-wrapper {
-      width: 100%;
-      max-width: 800px;
+      box-sizing: border-box;
+      text-align: center;
     }
     header {
-      background: var(--gray-light);
-      padding: 2rem;
-      text-align: center;
-      border-bottom: 1px solid var(--gray-dark);
-      margin-bottom: 2rem;
+      margin: 40px 0;
     }
     h1 {
-      color: var(--secondary);
-      font-size: 2.5rem;
-      margin-top: 0;
+      font-size: 2.2rem;
+      margin-bottom: 10px;
     }
-    .product-list {
-      background: var(--gray-light);
-      padding: 1.5rem;
-      border-radius: 5px;
-      margin-bottom: 2rem;
-    }
-    .cta-button {
-      display: inline-block;
-      background: var(--accent);
-      color: white !important;
-      padding: 12px 24px;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: bold;
-      margin-top: 1rem;
-    }
-    footer {
-      background: var(--gray-dark);
-      color: var(--primary);
-      text-align: center;
-      padding: 1.5rem;
-      width: 100%;
-    }
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-        .cta-button {
-            display: inline-block;
-            background: #3498db;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Welcome to Shippera</h1>
-    <p>Importing high-quality goods from USA/China to Erbil, Kurdistan.</p>
-    
-    <h2>Our Products</h2>
-    <ul>
-        <li>Electronics</li>
-        <li>Machinery</li>
-        <li>Consumer Goods</li>
-    </ul>
-    
-    <a href="contact.html" class="cta-button">Contact Us</a>
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    :root {
-      --primary: #ffffff;
-      --secondary: #000000;
-      --gray-light: #f5f5f5;
-      --gray-dark: #333333;
-      --accent: #0066cc;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background: var(--primary);
-      color: var(--secondary);
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
-    header {
-      background: var(--gray-light);
-      padding: 2rem;
-      text-align: center;
-      border-bottom: 1px solid var(--gray-dark);
-    }
-    h1 {
-      color: var(--secondary);
-      font-size: 2.5rem;
-    }
-    .container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    .product-list {
-      background: var(--gray-light);
-      padding: 1.5rem;
-      border-radius: 5px;
+    .products {
+      background: var(--gray);
+      padding: 25px;
+      border-radius: 8px;
+      margin: 20px 0;
     }
     .cta-button {
-      display: inline-block;
-      background: var(--accent);
-      color: white !important;
-      padding: 12px 24px;
+      background: var(--blue);
+      color: white;
+      padding: 12px 30px;
       text-decoration: none;
       border-radius: 4px;
+      display: inline-block;
+      margin: 20px 0;
       font-weight: bold;
-      margin-top: 1rem;
-    }
-    footer {
-      background: var(--gray-dark);
-      color: var(--primary);
-      text-align: center;
-      padding: 1.5rem;
-      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to Shippera</h1>
-    <p>Importing high-quality goods from USA/China to Erbil, Kurdistan.</p>
-  </header>
+  <div class="main-container">
+    <header>
+      <h1>Welcome to Shippera</h1>
+      <p>Importing high-quality goods from USA/China to Erbil, Kurdistan.</p>
+    </header>
 
-  <div class="container">
-    <section class="product-list">
+    <section class="products">
       <h2>Our Products</h2>
-      <ul>
+      <ul style="list-style: none; padding: 0;">
         <li>Electronics</li>
         <li>Machinery</li>
         <li>Consumer Goods</li>
       </ul>
-      <a href="contact.html" class="cta-button">Contact Us</a>
     </section>
-  </div>
 
-  <footer>
-    © 2023 Shippera. All rights reserved.
-  </footer>
+    <a href="contact.html" class="cta-button">Contact Us</a>
+  </div>
 </body>
 </html>
