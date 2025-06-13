@@ -8,20 +8,20 @@
     :root {
       --white: #ffffff;
       --black: #000000;
-      --gray-light: #f0f4f8;
-      --gray-dark: #333333;
+      --gray: #f2f2f2;
+      --dark-gray: #222;
       --blue: #0066cc;
     }
 
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
-      background-color: var(--gray-light);
+      background-color: var(--gray);
       color: var(--black);
     }
 
     .navbar {
-      background-color: var(--gray-dark);
+      background-color: var(--dark-gray);
       padding: 15px 0;
     }
 
@@ -63,6 +63,10 @@
       text-align: center;
       padding: 60px 20px;
       background-color: var(--white);
+      border-radius: 20px;
+      margin: 30px auto 20px;
+      max-width: 1000px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
 
     .hero h1 {
@@ -76,10 +80,19 @@
       margin: 0 auto;
     }
 
+    .cargo-icon {
+      display: block;
+      margin: 30px auto 0;
+      max-width: 120px;
+    }
+
     .products {
       max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
+      margin: 40px auto;
+      padding: 30px 20px;
+      background-color: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
     }
 
     .products h2 {
@@ -96,27 +109,13 @@
     }
 
     .product-card {
-      background-color: var(--white);
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      background-color: var(--gray);
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
       padding: 20px;
       width: 220px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
       text-align: center;
-    }
-
-    .info-section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: var(--white);
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    }
-
-    .info-section h3 {
-      font-size: 1.6rem;
-      margin-bottom: 10px;
     }
 
     .cta-button {
@@ -125,7 +124,7 @@
       background-color: var(--blue);
       color: var(--white);
       padding: 12px 30px;
-      border-radius: 4px;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
       transition: background 0.3s;
@@ -135,24 +134,49 @@
       background-color: #0055aa;
     }
 
-    .payment-icons {
-      display: flex;
-      gap: 20px;
-      margin-top: 15px;
-      align-items: center;
+    .how-to {
+      text-align: center;
+      margin: 40px auto;
+      padding: 40px 20px;
+      background: linear-gradient(to bottom right, #ffffff, #f8f8f8);
+      max-width: 1000px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
     }
 
-    .payment-icons img {
+    .how-to h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .payments {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .payments img {
       height: 40px;
       object-fit: contain;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+    }
+
+    .plane-icon {
+      display: block;
+      margin: 60px auto 10px;
+      max-width: 100px;
     }
 
     footer {
-      background-color: var(--gray-dark);
+      background-color: var(--dark-gray);
       color: var(--white);
       text-align: center;
       padding: 30px 20px;
-      margin-top: 60px;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
     }
 
     .social-links a {
@@ -185,6 +209,7 @@
   <section class="hero">
     <h1>Welcome to Shippera</h1>
     <p>Importing high-quality goods from the USA and China to Erbil, Kurdistan. Reliable logistics and trusted service.</p>
+    <img src="images/cargo.png" alt="Cargo Ship" class="cargo-icon">
   </section>
 
   <!-- Products Section -->
@@ -210,26 +235,29 @@
   </section>
 
   <!-- How to Order & Pay -->
-  <section class="info-section">
-    <h3>How to Order</h3>
-    <p>Contact us directly through our Instagram account: <strong><a href="https://instagram.com/shippera.krd" target="_blank">@shippera.krd</a></strong></p>
+  <section class="how-to">
+    <h2>How to Order</h2>
+    <p>Contact us on Instagram: <strong>@shippera.krd</strong></p>
 
-    <h3>How to Pay</h3>
-    <p>We accept payments through the following apps:</p>
-    <div class="payment-icons">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/FIB-logo.png" alt="FIB Bank" title="FIB Bank" />
-      <img src="https://fast-pay.cash/images/logo.png" alt="FastPay" title="FastPay" />
-      <img src="https://nasswallet.com/assets/images/nasswallet-logo.png" alt="NassWallet" title="NassWallet" />
+    <h2>How to Pay</h2>
+    <p>We accept payments through:</p>
+    <div class="payments">
+      <img src="images/fib.png" alt="FIB Logo">
+      <img src="images/fastpay.png" alt="Fastpay Logo">
+      <img src="images/nasswallet.png" alt="Nasswallet Logo">
     </div>
   </section>
+
+  <!-- Plane icon before footer -->
+  <img src="images/plane.png" alt="Airplane" class="plane-icon">
 
   <!-- Footer -->
   <footer>
     <p>© 2025 Shippera. All rights reserved.</p>
     <div class="social-links">
-      <a href="https://instagram.com/shippera.krd" target="_blank">Instagram</a> |
+      <a href="#">LinkedIn</a> |
       <a href="#">Facebook</a> |
-      <a href="#">LinkedIn</a>
+      <a href="https://instagram.com/shippera.krd" target="_blank">Instagram</a>
     </div>
     <p>Email: info@shippera.com | Phone: +964 XXX XXX XXXX</p>
   </footer>
