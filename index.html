@@ -13,6 +13,8 @@
       --light-gray: #f4f4f4;
       --white: #ffffff;
       --blue-accent: #2f80ed;
+      --error-red: #e74c3c;
+      --success-green: #2ecc71;
     }
 
     * {
@@ -221,6 +223,7 @@
 
     .form-group {
       margin-bottom: 25px;
+      position: relative;
     }
 
     .form-group label {
@@ -295,6 +298,12 @@
       transform: translateY(-2px);
     }
 
+    .submit-btn:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .order-confirmation {
       display: none;
       text-align: center;
@@ -358,6 +367,47 @@
       color: #666;
       margin: 20px 0;
       text-align: center;
+    }
+
+    /* Error/Success Messages */
+    .error-message {
+      color: var(--error-red);
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      color: var(--success-green);
+      font-size: 0.9rem;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* Order Tracking Modal */
@@ -537,11 +587,13 @@
         <div class="form-group">
           <label for="itemUrl">Product URL (Amazon/AliExpress/etc.)</label>
           <input type="url" id="itemUrl" class="form-control" placeholder="https://">
+          <div class="error-message" id="itemUrlError">Please enter a valid URL</div>
         </div>
         
         <div class="form-group">
           <label for="itemPhoto">Upload Product Photo</label>
           <input type="file" id="itemPhoto" class="form-control" accept="image/*">
+          <div class="error-message" id="itemPhotoError">Please upload an image file</div>
         </div>
         
         <!-- Shipping Information -->
@@ -549,6 +601,7 @@
           <label for="customerCity">Your City in Kurdistan</label>
           <input type="text" id="customerCity" class="form-control" required
                  placeholder="Start typing to see suggestions">
+          <div class="error-message" id="cityError">Please select your city</div>
           <div class="city-suggestions" id="citySuggestions">
             <div class="city-option" data-value="Erbil">Erbil</div>
             <div class="city-option" data-value="Sulaymaniyah">Sulaymaniyah</div>
@@ -561,6 +614,7 @@
         <div class="form-group">
           <label for="deliveryAddress">Your Full Delivery Address</label>
           <textarea id="deliveryAddress" class="form-control" rows="3" required></textarea>
+          <div class="error-message" id="addressError">Please enter your delivery address</div>
         </div>
         
         <!-- Contact Information -->
@@ -568,6 +622,7 @@
           <label for="phone1">Primary WhatsApp Number (Required)</label>
           <input type="tel" id="phone1" class="form-control" required
                  placeholder="e.g., 0750XXXXXXX">
+          <div class="error-message" id="phoneError">Please enter a valid Iraqi phone number (e.g., 0750XXXXXXX)</div>
         </div>
         
         <div class="form-group">
@@ -583,7 +638,11 @@
                     placeholder="Any special requirements or notes"></textarea>
         </div>
         
-        <button type="submit" class="submit-btn">Submit Order Request</button>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span id="submitText">Submit Order Request</span>
+          <span id="submitSpinner" class="spinner" style="display: none;"></span>
+        </button>
+        <div class="success-message" id="formSuccess"></div>
       </form>
       
       <div class="order-confirmation" id="orderConfirmation">
@@ -623,7 +682,11 @@
       <div class="form-group">
         <label for="trackOrderId">Enter Your Order ID</label>
         <input type="text" id="trackOrderId" class="form-control" placeholder="e.g., SHIP-123456">
-        <button id="trackOrderBtn" class="submit-btn" style="margin-top: 15px;">Track Order</button>
+        <div class="error-message" id="trackingError"></div>
+        <button id="trackOrderBtn" class="submit-btn" style="margin-top: 15px;">
+          <span id="trackBtnText">Track Order</span>
+          <span id="trackSpinner" class="spinner" style="display: none;"></span>
+        </button>
       </div>
       
       <div class="tracking-status" id="trackingStatus" style="display: none;">
@@ -675,7 +738,8 @@
 
   <script>
     // Google Sheets Integration Setup
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx_-5huKloch46lxp_V0KJWf5FFkjg2vC1_o29zBv8fNOf_jEVyhPerJY3qsaJcaZ00/exec'; // You'll get this after setup
+    // Replace this with your actual Google Apps Script deployment URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxPdqle6-RAHhxWlQ_RvkRHlUfOIcVSvQ4K9hlfSDzPCb8GkhgSgyCvRYXqoNsyIoeA/exec';
     
     // Generate date-based order ID (SHIP-YYYYMMDD-XXX)
     function generateOrderId() {
@@ -712,6 +776,7 @@
       option.addEventListener('click', function() {
         cityInput.value = this.getAttribute('data-value');
         citySuggestions.classList.remove('show');
+        document.getElementById('cityError').classList.remove('show');
       });
     });
 
@@ -722,16 +787,56 @@
       }
     });
 
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate city
+      if (!cityInput.value) {
+        document.getElementById('cityError').classList.add('show');
+        isValid = false;
+      } else {
+        document.getElementById('cityError').classList.remove('show');
+      }
+      
+      // Validate address
+      const address = document.getElementById('deliveryAddress').value;
+      if (!address) {
+        document.getElementById('addressError').classList.add('show');
+        isValid = false;
+      } else {
+        document.getElementById('addressError').classList.remove('show');
+      }
+      
+      // Validate phone
+      const phone1 = document.getElementById('phone1').value;
+      if (!/^(\+964|0)?7[0-9]{8,9}$/.test(phone1)) {
+        document.getElementById('phoneError').classList.add('show');
+        isValid = false;
+      } else {
+        document.getElementById('phoneError').classList.remove('show');
+      }
+      
+      return isValid;
+    }
+
     // Form submission
     document.getElementById('quoteForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Validate phone number
-      const phone1 = document.getElementById('phone1').value;
-      if (!/^(\+964|0)?7[0-9]{9}$/.test(phone1)) {
-        alert("Please enter a valid Iraqi phone number starting with 07");
+      // Validate form
+      if (!validateForm()) {
         return;
       }
+      
+      // Disable submit button and show loading
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const submitSpinner = document.getElementById('submitSpinner');
+      
+      submitBtn.disabled = true;
+      submitText.textContent = 'Processing...';
+      submitSpinner.style.display = 'inline-block';
       
       // Generate order ID
       const orderId = generateOrderId();
@@ -739,11 +844,11 @@
       // Get form values
       const formData = {
         orderId: orderId,
-        timestamp: new Date().toLocaleString(),
-        itemUrl: document.getElementById('itemUrl').value,
+        timestamp: new Date().toISOString(),
+        itemUrl: document.getElementById('itemUrl').value || 'Not provided',
         customerCity: document.getElementById('customerCity').value,
         deliveryAddress: document.getElementById('deliveryAddress').value,
-        phone1: phone1,
+        phone1: document.getElementById('phone1').value,
         phone2: document.getElementById('phone2').value || 'None',
         notes: document.getElementById('notes').value || 'None'
       };
@@ -764,23 +869,41 @@
         }
       })
       .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        
         // Show confirmation to customer
         document.getElementById('orderIdDisplay').textContent = orderId;
         document.getElementById('orderConfirmation').classList.add('show');
         document.getElementById('quoteForm').style.display = 'none';
         
         // Show admin reference (hidden from customers)
-        document.getElementById('adminPhone').textContent = phone1;
-        document.getElementById('whatsappMessage').value = whatsappMsg;
-        document.getElementById('whatsappLink').href = `https://wa.me/${phone1.replace(/^0/, '964')}?text=${encodeURIComponent(whatsappMsg)}`;
+        document.getElementById('adminPhone').textContent = formData.phone1;
+        document.getElementById('whatsappMessage').value = decodeURIComponent(whatsappMsg);
+        document.getElementById('whatsappLink').href = `https://wa.me/${formData.phone1.replace(/^0/, '964')}?text=${whatsappMsg}`;
         document.getElementById('adminPanel').classList.add('show');
         
         // Save to localStorage
         localStorage.setItem('shipperaOrderId', orderId);
+        
+        // Scroll to confirmation
+        document.getElementById('orderConfirmation').scrollIntoView({ behavior: 'smooth' });
       })
       .catch(error => {
         console.error('Error:', error);
-        alert("There was an error submitting your form. Please try again.");
+        document.getElementById('formSuccess').textContent = 'There was an error submitting your form. Please try again.';
+        document.getElementById('formSuccess').classList.add('show');
+      })
+      .finally(() => {
+        // Reset submit button
+        submitBtn.disabled = false;
+        submitText.textContent = 'Submit Order Request';
+        submitSpinner.style.display = 'none';
       });
     });
 
@@ -790,24 +913,57 @@
     const closeModal = document.getElementById('closeModal');
     const trackOrderBtn = document.getElementById('trackOrderBtn');
     const trackingStatus = document.getElementById('trackingStatus');
+    const trackingError = document.getElementById('trackingError');
 
     trackOrderLink.addEventListener('click', function(e) {
       e.preventDefault();
       trackingModal.classList.add('show');
+      document.getElementById('trackOrderId').focus();
     });
 
     closeModal.addEventListener('click', function() {
       trackingModal.classList.remove('show');
+      trackingStatus.style.display = 'none';
+      trackingError.textContent = '';
+      trackingError.classList.remove('show');
     });
 
     trackOrderBtn.addEventListener('click', function() {
-      const orderId = document.getElementById('trackOrderId').value;
-      if (orderId) {
+      const orderId = document.getElementById('trackOrderId').value.trim();
+      if (!orderId) {
+        trackingError.textContent = 'Please enter your order ID';
+        trackingError.classList.add('show');
+        return;
+      }
+      
+      // Show loading
+      const trackBtnText = document.getElementById('trackBtnText');
+      const trackSpinner = document.getElementById('trackSpinner');
+      
+      trackBtnText.textContent = 'Tracking...';
+      trackSpinner.style.display = 'inline-block';
+      trackOrderBtn.disabled = true;
+      
+      // Simulate API call with timeout
+      setTimeout(() => {
+        // Reset button
+        trackBtnText.textContent = 'Track Order';
+        trackSpinner.style.display = 'none';
+        trackOrderBtn.disabled = false;
+        
         // Here you would normally check with your database
         // For demo, we'll just show the status
         trackingStatus.style.display = 'block';
+        trackingError.classList.remove('show');
+        
+        // Reset all statuses first
+        document.querySelectorAll('.status-item').forEach(item => {
+          item.classList.remove('status-complete');
+        });
         
         // Simulate different statuses based on order ID
+        document.querySelector('.status-item.status-complete').classList.add('status-complete');
+        
         if (orderId.includes('-')) {
           document.getElementById('statusProcessing').classList.add('status-complete');
         }
@@ -817,15 +973,16 @@
         if (orderId.endsWith('111')) {
           document.getElementById('statusDelivered').classList.add('status-complete');
         }
-      } else {
-        alert("Please enter your order ID");
-      }
+      }, 1500);
     });
 
     // Close modal when clicking outside
     window.addEventListener('click', function(e) {
       if (e.target === trackingModal) {
         trackingModal.classList.remove('show');
+        trackingStatus.style.display = 'none';
+        trackingError.textContent = '';
+        trackingError.classList.remove('show');
       }
     });
 
