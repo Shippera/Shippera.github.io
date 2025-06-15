@@ -1,26 +1,32 @@
-body { max-width: 800px; margin: 0 auto; padding: 20px; }
-a { color: #0066cc; text-decoration: none; }
-
-.nav-logo-img {
-  height: 25px; /* Adjust this value to make smaller/larger */
-  width: auto;  /* Maintains aspect ratio */
-  transition: height 0.3s; /* Optional: Smooth size change on hover */
-}
-
-/* Optional: Make logo even smaller on mobile */
-@media (max-width: 768px) {
-  .nav-logo-img {
-    height: 20px;
-  }
+/* Update your existing styles with these */
+.navbar {
+  padding: 10px 0; /* Adjust navbar padding if needed */
 }
 
 .nav-logo {
-  display: flex;
-  align-items: left;
-  gap: 8px; /* Reduce space between logo and text */
+  display: inline-flex; /* Changed from flex to inline-flex */
+  align-items: center; /* Center vertically */
+  gap: 5px; /* Reduced gap between logo and text */
+  font-size: 1.2rem; /* Adjust text size if needed */
 }
 
 .nav-logo-img {
-  max-height: 100%; /* Never exceeds navbar height */
-  transform: scale(0.8); /* Alternative scaling method */
+  height: 20px; /* Smaller fixed size */
+  width: auto;
+  vertical-align: middle; /* Ensures perfect alignment */
+  margin: 0; /* Remove any default margins */
+  display: inline-block; /* Better for inline alignment */
+}
+
+/* Remove duplicate .nav-logo-img rules */
+/* Remove the transform: scale(0.8) as it causes blurriness */
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .nav-logo-img {
+    height: 16px; /* Even smaller on mobile */
+  }
+  .nav-logo {
+    gap: 3px; /* Tighter spacing on mobile */
+  }
 }
