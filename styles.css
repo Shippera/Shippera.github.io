@@ -30,4 +30,11 @@
   vertical-align: middle;
   margin-right: 8px;
 }
+.nav-logo-img {
+  height: 40px;      /* Controls image size */
+  width: auto;
+  vertical-align: middle;
+  margin-right: 8px; /* Space between image and text */
+}
+
 
