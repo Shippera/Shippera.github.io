@@ -1,2 +1,14 @@
 body { max-width: 800px; margin: 0 auto; padding: 20px; }
 a { color: #0066cc; text-decoration: none; }
+
+.logo-img {
+  height: 30px; /* Adjust to match your navbar height */
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
