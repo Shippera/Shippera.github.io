@@ -330,6 +330,36 @@
       background: #8a5a36;
     }
 
+    .admin-panel {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f0f7ff;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .admin-panel.show {
+      display: block;
+    }
+
+    .whatsapp-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 15px;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+
+    .privacy-notice {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 20px 0;
+      text-align: center;
+    }
+
     /* Order Tracking Modal */
     .modal {
       display: none;
@@ -478,18 +508,18 @@
     <div class="steps">
       <div class="step">
         <img src="images/contact.png" alt="Contact">
-        <h3>1. Contact Us</h3>
-        <p>Submit your order details through our form or DM us on Instagram @shippera.krd</p>
+        <h3>1. Submit Request</h3>
+        <p>Fill out our simple form with your shipping details</p>
       </div>
       <div class="step">
         <img src="images/price.png" alt="Quote">
         <h3>2. Get a Quote</h3>
-        <p>We'll send you pricing and expected delivery time within 24 hours</p>
+        <p>We'll calculate and send you pricing within 24 hours</p>
       </div>
       <div class="step">
         <img src="images/pay.png" alt="Payment">
-        <h3>3. Receive & Pay</h3>
-        <p>Get your item delivered and pay via FastPay, NassWallet or FIB upon delivery</p>
+        <h3>3. Confirm & Ship</h3>
+        <p>Approve the quote and we'll handle everything else</p>
       </div>
     </div>
   </section>
@@ -499,6 +529,7 @@
       <div class="form-title">
         <h2 class="section-title">Request a Shipping Quote</h2>
         <p>Fill out this form to get a personalized quote</p>
+        <p class="privacy-notice">We respect your privacy. Your information will only be used for this order.</p>
       </div>
       
       <form id="quoteForm">
@@ -552,16 +583,25 @@
                     placeholder="Any special requirements or notes"></textarea>
         </div>
         
-        <button type="submit" class="submit-btn">Get Quote Now</button>
+        <button type="submit" class="submit-btn">Submit Order Request</button>
       </form>
       
       <div class="order-confirmation" id="orderConfirmation">
-        <h3>Order Submitted Successfully!</h3>
-        <p>Your unique order ID is:</p>
+        <h3>Order Request Received!</h3>
+        <p>Your order ID is:</p>
         <div class="order-id" id="orderIdDisplay"></div>
-        <p>We've received your request and will contact you on your WhatsApp number within 24 hours.</p>
+        <p>We'll contact you on your WhatsApp number within 24 hours with your quote.</p>
         <p>You can track your order status anytime using your order ID.</p>
         <a href="#track-order" class="track-order-btn">Track My Order</a>
+      </div>
+
+      <!-- Hidden admin panel for your reference -->
+      <div class="admin-panel" id="adminPanel">
+        <h3>Admin Reference</h3>
+        <p><strong>Customer WhatsApp:</strong> <span id="adminPhone"></span></p>
+        <p><strong>Ready Message:</strong></p>
+        <textarea id="whatsappMessage" rows="4" style="width:100%; margin:10px 0;"></textarea>
+        <a href="#" id="whatsappLink" class="whatsapp-link" target="_blank">Open WhatsApp</a>
       </div>
     </div>
   </section>
@@ -629,11 +669,14 @@
       <a href="#track-order">Track Order</a>
       <a href="https://instagram.com/shippera.krd" target="_blank">Instagram</a>
     </div>
-    <p>Email: info@shippera.com | WhatsApp: +964 XXX XXX XXXX</p>
+    <p>Email: info@shippera.com</p>
     <p>&copy; 2025 Shippera. All rights reserved.</p>
   </footer>
 
   <script>
+    // Google Sheets Integration Setup
+    const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL'; // You'll get this after setup
+    
     // Generate date-based order ID (SHIP-YYYYMMDD-XXX)
     function generateOrderId() {
       const now = new Date();
@@ -694,29 +737,51 @@
       const orderId = generateOrderId();
       
       // Get form values
-      const customerCity = document.getElementById('customerCity').value;
-      const deliveryAddress = document.getElementById('deliveryAddress').value;
-      const phone2 = document.getElementById('phone2').value;
-      const notes = document.getElementById('notes').value;
+      const formData = {
+        orderId: orderId,
+        timestamp: new Date().toLocaleString(),
+        itemUrl: document.getElementById('itemUrl').value,
+        customerCity: document.getElementById('customerCity').value,
+        deliveryAddress: document.getElementById('deliveryAddress').value,
+        phone1: phone1,
+        phone2: document.getElementById('phone2').value || 'None',
+        notes: document.getElementById('notes').value || 'None'
+      };
       
-      // Compose WhatsApp message (without URL)
-      const message = `*NEW ORDER #${orderId}*%0A%0A` +
-                     `📍 *Customer City:* ${customerCity}%0A` +
-                     `🏠 *Delivery Address:* ${deliveryAddress}%0A` +
-                     `📱 *Contact Number:* ${phone1}%0A` +
-                     `📞 *Alt. Number:* ${phone2 || 'None'}%0A` +
-                     `📝 *Special Instructions:* ${notes || 'None'}`;
+      // Create WhatsApp message draft for admin
+      const whatsappMsg = `Hello, this is Shippera regarding your order #${orderId}.%0A%0A` +
+                         `We've received your request to ship from ${formData.customerCity}.%0A` +
+                         `Your quote is: [INSERT_AMOUNT] IQD%0A` +
+                         `Expected delivery: [INSERT_DAYS] days%0A%0A` +
+                         `Please reply with "CONFIRM" to proceed or ask any questions.`;
       
-      // Open WhatsApp (replace YOURNUMBER with your actual WhatsApp number)
-      window.open(`https://wa.me/9647505367299?text=${message}`, '_blank');
-      
-      // Show confirmation
-      document.getElementById('orderIdDisplay').textContent = orderId;
-      document.getElementById('orderConfirmation').classList.add('show');
-      document.getElementById('quoteForm').style.display = 'none';
-      
-      // Save to localStorage
-      localStorage.setItem('shipperaOrderId', orderId);
+      // Save to Google Sheets
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        // Show confirmation to customer
+        document.getElementById('orderIdDisplay').textContent = orderId;
+        document.getElementById('orderConfirmation').classList.add('show');
+        document.getElementById('quoteForm').style.display = 'none';
+        
+        // Show admin reference (hidden from customers)
+        document.getElementById('adminPhone').textContent = phone1;
+        document.getElementById('whatsappMessage').value = whatsappMsg;
+        document.getElementById('whatsappLink').href = `https://wa.me/${phone1.replace(/^0/, '964')}?text=${encodeURIComponent(whatsappMsg)}`;
+        document.getElementById('adminPanel').classList.add('show');
+        
+        // Save to localStorage
+        localStorage.setItem('shipperaOrderId', orderId);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("There was an error submitting your form. Please try again.");
+      });
     });
 
     // Order Tracking Modal
@@ -773,5 +838,35 @@
       }
     });
   </script>
+
+  <!-- Google Sheets Setup Instructions -->
+  <!-- 
+    1. Go to https://sheets.new to create a new Google Sheet
+    2. Name columns in Row 1: Timestamp, OrderID, WhatsApp, AltPhone, City, Address, ProductURL, Notes
+    3. Click Extensions > Apps Script
+    4. Replace the code with this:
+    
+    function doPost(e) {
+      const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      const data = JSON.parse(e.postData.contents);
+      sheet.appendRow([
+        data.timestamp,
+        data.orderId,
+        data.phone1,
+        data.phone2,
+        data.customerCity,
+        data.deliveryAddress,
+        data.itemUrl,
+        data.notes
+      ]);
+      return ContentService.createTextOutput("Success");
+    }
+    
+    5. Click Deploy > New Deployment
+    6. Select "Web App" and set:
+       - Execute as: Me
+       - Who has access: Anyone
+    7. Copy the provided URL and paste it in the scriptURL variable above
+  -->
 </body>
 </html>
