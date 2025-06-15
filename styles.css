@@ -11,10 +11,10 @@
 }
 
 .nav-logo-img {
-  height: 20px; /* Smaller fixed size */
+  height: 8px; /* Smaller fixed size */
   width: auto;
   vertical-align: middle; /* Ensures perfect alignment */
-  margin: 0; /* Remove any default margins */
+  margin: 1; /* Remove any default margins */
   display: inline-block; /* Better for inline alignment */
 }
 
@@ -24,7 +24,7 @@
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .nav-logo-img {
-    height: 16px; /* Even smaller on mobile */
+    height: 8px; /* Even smaller on mobile */
   }
   .nav-logo {
     gap: 3px; /* Tighter spacing on mobile */
