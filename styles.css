@@ -1,32 +1,35 @@
-/* Update your existing styles with these */
+/* Navigation Bar */
 .navbar {
-  padding: 10px 0; /* Adjust navbar padding if needed */
+  padding: 10px 0;
+  background-color: #222; /* Added for visibility */
 }
 
+/* Logo Container */
 .nav-logo {
-  display: inline-flex; /* Changed from flex to inline-flex */
-  align-items: center; /* Center vertically */
-  gap: 5px; /* Reduced gap between logo and text */
-  font-size: 1.2rem; /* Adjust text size if needed */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.2rem;
+  color: white; /* Added for visibility */
+  text-decoration: none;
 }
 
+/* Logo Image - PROPERLY SIZED */
 .nav-logo-img {
-  height: 8px; /* Smaller fixed size */
+  height: 25px; /* Reasonable logo size */
   width: auto;
-  vertical-align: middle; /* Ensures perfect alignment */
-  margin: 1; /* Remove any default margins */
-  display: inline-block; /* Better for inline alignment */
+  vertical-align: middle;
+  margin: 0; /* Fixed typo (was 'margin: 1') */
+  display: block;
 }
 
-/* Remove duplicate .nav-logo-img rules */
-/* Remove the transform: scale(0.8) as it causes blurriness */
-
-/* Mobile adjustments */
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .nav-logo-img {
-    height: 8px; /* Even smaller on mobile */
+    height: 20px; /* Slightly smaller on mobile */
   }
   .nav-logo {
-    gap: 3px; /* Tighter spacing on mobile */
+    gap: 3px;
+    font-size: 1rem; /* Smaller text on mobile */
   }
 }
