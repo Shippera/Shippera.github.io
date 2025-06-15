@@ -839,34 +839,5 @@
     });
   </script>
 
-  <!-- Google Sheets Setup Instructions -->
-  <!-- 
-    1. Go to https://sheets.new to create a new Google Sheet
-    2. Name columns in Row 1: Timestamp, OrderID, WhatsApp, AltPhone, City, Address, ProductURL, Notes
-    3. Click Extensions > Apps Script
-    4. Replace the code with this:
-    
-    function doPost(e) {
-      const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-      const data = JSON.parse(e.postData.contents);
-      sheet.appendRow([
-        data.timestamp,
-        data.orderId,
-        data.phone1,
-        data.phone2,
-        data.customerCity,
-        data.deliveryAddress,
-        data.itemUrl,
-        data.notes
-      ]);
-      return ContentService.createTextOutput("Success");
-    }
-    
-    5. Click Deploy > New Deployment
-    6. Select "Web App" and set:
-       - Execute as: Me
-       - Who has access: Anyone
-    7. Copy the provided URL and paste it in the scriptURL variable above
-  -->
 </body>
 </html>
