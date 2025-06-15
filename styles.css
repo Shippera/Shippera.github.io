@@ -1,12 +1,12 @@
 /* Navigation Bar */
 .navbar {
-  padding: 10px 0;
+  padding: 15px 0;
   background-color: #222; /* Added for visibility */
 }
 
 /* Logo Container */
 .nav-logo {
-  display: inline-flex;
+  display:flex;
   align-items: center;
   gap: 5px;
   font-size: 1.2rem;
