@@ -1,11 +1,11 @@
-/* General Reset */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Navigation Bar */
+/* Navbar */
 .navbar {
   background-color: #222;
   padding: 15px 0;
@@ -20,40 +20,22 @@
   padding: 0 20px;
 }
 
-/* Logo Link */
+/* Logo link */
 .nav-logo {
   display: flex;
   align-items: center;
+  gap: 10px;
   color: white;
   font-size: 1.3rem;
   font-weight: bold;
   text-decoration: none;
-  gap: 10px;
 }
 
-/* Logo Image */
-.nav-logo-img {
-  height: 40px;
-  width: auto;
-  display: inline-block;
+/* Bulletproof logo image */
+.nav-logo img {
+  height: 40px !important;
+  width: auto !important;
   object-fit: contain;
+  display: inline-block;
   vertical-align: middle;
-}
-
-/* Navigation Menu */
-.nav-menu {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.nav-menu li a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.nav-menu li a:hover {
-  color: #1e90ff; /* Hover effect */
 }
