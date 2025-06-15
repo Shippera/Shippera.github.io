@@ -25,7 +25,9 @@
 
 /* Logo Image - MUST HAVE THESE PROPERTIES */
 .nav-logo-img {
-  height: 30px;
+  height: 40px; /* or adjust to your desired size */
   width: auto;
-  display: block; /* Critical for proper rendering */
+  vertical-align: middle;
+  margin-right: 8px;
 }
+
