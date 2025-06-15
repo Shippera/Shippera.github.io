@@ -1,14 +1,26 @@
 body { max-width: 800px; margin: 0 auto; padding: 20px; }
 a { color: #0066cc; text-decoration: none; }
 
-.logo-img {
-  height: 30px; /* Adjust to match your navbar height */
-  vertical-align: middle;
-  margin-right: 10px;
+.nav-logo-img {
+  height: 25px; /* Adjust this value to make smaller/larger */
+  width: auto;  /* Maintains aspect ratio */
+  transition: height 0.3s; /* Optional: Smooth size change on hover */
+}
+
+/* Optional: Make logo even smaller on mobile */
+@media (max-width: 768px) {
+  .nav-logo-img {
+    height: 20px;
+  }
 }
 
 .nav-logo {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: left;
+  gap: 8px; /* Reduce space between logo and text */
+}
+
+.nav-logo-img {
+  max-height: 100%; /* Never exceeds navbar height */
+  transform: scale(0.8); /* Alternative scaling method */
 }
