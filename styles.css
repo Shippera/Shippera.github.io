@@ -1,35 +1,31 @@
 /* Navigation Bar */
 .navbar {
+  background-color: #222;
   padding: 15px 0;
-  background-color: #222; /* Added for visibility */
 }
 
-/* Logo Container */
-.nav-logo {
-  display:flex;
+.nav-container {
+  display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 1.2rem;
-  color: white; /* Added for visibility */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Logo Link */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
   text-decoration: none;
 }
 
-/* Logo Image - PROPERLY SIZED */
+/* Logo Image - MUST HAVE THESE PROPERTIES */
 .nav-logo-img {
-  height: 25px; /* Reasonable logo size */
+  height: 30px;
   width: auto;
-  vertical-align: middle;
-  margin: 0; /* Fixed typo (was 'margin: 1') */
-  display: block;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .nav-logo-img {
-    height: 20px; /* Slightly smaller on mobile */
-  }
-  .nav-logo {
-    gap: 3px;
-    font-size: 1rem; /* Smaller text on mobile */
-  }
+  display: block; /* Critical for proper rendering */
 }
