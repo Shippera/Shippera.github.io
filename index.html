@@ -860,14 +860,16 @@
                          `Expected delivery: [INSERT_DAYS] days%0A%0A` +
                          `Please reply with "CONFIRM" to proceed or ask any questions.`;
       
-      // Save to Google Sheets
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      const googleFormData = new FormData();
+for (const key in formData) {
+  googleFormData.append(key, formData[key]);
+}
+
+fetch(scriptURL, {
+  method: 'POST',
+  body: googleFormData
+})
+
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
