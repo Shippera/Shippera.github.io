@@ -736,7 +736,8 @@
     <p>&copy; 2025 Shippera. All rights reserved.</p>
   </footer>
 
-   <script>
+ <!-- Replace your entire script section with this updated version -->
+<script>
     // ===== SUPABASE INITIALIZATION ===== //
     const supabaseUrl = 'https://srycuvlhqsflsesakguc.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNyeWN1dmxocXNmbHNlc2FrZ3VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAxNDQ4NDUsImV4cCI6MjA2NTcyMDg0NX0.j5ekzUz0ZNLAWAp1KSWwXaQcCOsJ3MSOR66_G7ykrmQ';
@@ -750,7 +751,7 @@
       return `SHIP-${datePart}-${randomPart}`;
     }
 
-    // City suggestions functionality (unchanged)
+    // City suggestions functionality
     const cityInput = document.getElementById('customerCity');
     const citySuggestions = document.getElementById('citySuggestions');
     const cityOptions = document.querySelectorAll('.city-option');
@@ -787,7 +788,7 @@
       }
     });
 
-    // Form validation (unchanged)
+    // Form validation
     function validateForm() {
       let isValid = true;
       
@@ -817,13 +818,15 @@
       return isValid;
     }
 
-    // ===== UPDATED FORM SUBMISSION ===== //
-    document.getElementById('quoteForm').addEventListener('submit', async function(e) {
+    // ===== FIXED FORM SUBMISSION ===== //
+    async function handleFormSubmit(e) {
+      // Completely prevent default form behavior
       e.preventDefault();
+      e.stopPropagation();
       
       if (!validateForm()) {
         alert('Please complete all required fields correctly');
-        return;
+        return false;
       }
 
       const submitBtn = document.getElementById('submitBtn');
@@ -844,7 +847,7 @@
           created_at: new Date().toISOString()
         };
 
-        console.log('Form data being submitted:', formData); // Debugging
+        console.log('Submitting:', formData);
         
         const { error } = await supabase
           .from('submissions')
@@ -865,15 +868,117 @@
         
         localStorage.setItem('shipperaOrderId', formData.order_id);
 
+        // Prevent any further form behavior
+        return false;
+
       } catch (error) {
-        console.error('Submission error:', error);
-        alert('Failed to submit form. Please try again or contact support.');
+        console.error('Error:', error);
+        alert('Submission failed. Please check console for details.');
+        return false;
       } finally {
         submitBtn.disabled = false;
         document.getElementById('submitText').textContent = 'Submit Order Request';
         document.getElementById('submitSpinner').style.display = 'none';
       }
+    }
+
+    // Update event listener to use return false
+    document.getElementById('quoteForm').addEventListener('submit', function(e) {
+      handleFormSubmit(e);
+      return false;
     });
+
+    // Order Tracking Modal
+    const trackOrderLink = document.getElementById('trackOrderLink');
+    const trackingModal = document.getElementById('trackingModal');
+    const closeModal = document.getElementById('closeModal');
+    const trackOrderBtn = document.getElementById('trackOrderBtn');
+    const trackingStatus = document.getElementById('trackingStatus');
+    const trackingError = document.getElementById('trackingError');
+
+    trackOrderLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      trackingModal.classList.add('show');
+      document.getElementById('trackOrderId').focus();
+    });
+
+    closeModal.addEventListener('click', function() {
+      trackingModal.classList.remove('show');
+      trackingStatus.style.display = 'none';
+      trackingError.textContent = '';
+      trackingError.classList.remove('show');
+    });
+
+    trackOrderBtn.addEventListener('click', async function() {
+      const orderId = document.getElementById('trackOrderId').value.trim();
+      if (!orderId) {
+        trackingError.textContent = 'Please enter your order ID';
+        trackingError.classList.add('show');
+        return;
+      }
+      
+      const trackBtnText = document.getElementById('trackBtnText');
+      const trackSpinner = document.getElementById('trackSpinner');
+      
+      trackBtnText.textContent = 'Tracking...';
+      trackSpinner.style.display = 'inline-block';
+      trackOrderBtn.disabled = true;
+      
+      try {
+        const { data, error } = await supabase
+          .from('submissions')
+          .select('status, created_at')
+          .eq('order_id', orderId)
+          .single();
+
+        if (error || !data) throw new Error('Order not found');
+
+        trackingStatus.style.display = 'block';
+        trackingError.classList.remove('show');
+        
+        document.querySelectorAll('.status-item').forEach(item => {
+          item.classList.remove('status-complete');
+        });
+        
+        document.querySelector('.status-item.status-complete').classList.add('status-complete');
+        
+        const statusMap = {
+          'quote_requested': ['statusProcessing'],
+          'quote_sent': ['statusProcessing', 'statusShipping'],
+          'delivered': ['statusProcessing', 'statusShipping', 'statusDelivered']
+        };
+        
+        (statusMap[data.status] || []).forEach(id => {
+          document.getElementById(id).classList.add('status-complete');
+        });
+        
+      } catch (error) {
+        trackingError.textContent = error.message;
+        trackingError.classList.add('show');
+      } finally {
+        trackBtnText.textContent = 'Track Order';
+        trackSpinner.style.display = 'none';
+        trackOrderBtn.disabled = false;
+      }
+    });
+
+    window.addEventListener('click', function(e) {
+      if (e.target === trackingModal) {
+        trackingModal.classList.remove('show');
+        trackingStatus.style.display = 'none';
+        trackingError.textContent = '';
+        trackingError.classList.remove('show');
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', function() {
+      const savedOrderId = localStorage.getItem('shipperaOrderId');
+      if (savedOrderId && window.location.hash === '#track-order') {
+        trackingModal.classList.add('show');
+        document.getElementById('trackOrderId').value = savedOrderId;
+      }
+    });
+</script>
 
     // Order Tracking Modal (unchanged)
     const trackOrderLink = document.getElementById('trackOrderLink');
