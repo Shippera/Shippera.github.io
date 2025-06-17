@@ -582,7 +582,7 @@
         <p class="privacy-notice">We respect your privacy. Your information will only be used for this order.</p>
       </div>
       
-  <form id="quoteForm">
+      <form id="quoteForm">
         <!-- Product Information -->
         <div class="form-group">
           <label for="itemUrl">Product URL (Amazon/AliExpress/etc.)</label>
@@ -654,7 +654,7 @@
         <a href="#track-order" class="track-order-btn">Track My Order</a>
       </div>
 
-      <!-- Hidden admin panel for your reference -->
+      <!-- Hidden admin panel -->
       <div class="admin-panel" id="adminPanel">
         <h3>Admin Reference</h3>
         <p><strong>Customer WhatsApp:</strong> <span id="adminPhone"></span></p>
@@ -737,11 +737,12 @@
   </footer>
 
   <script>
-    // Google Sheets Integration Setup
-    // Replace this with your actual Google Apps Script deployment URL
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxPdqle6-RAHhxWlQ_RvkRHlUfOIcVSvQ4K9hlfSDzPCb8GkhgSgyCvRYXqoNsyIoeA/exec';
-    
-    // Generate date-based order ID (SHIP-YYYYMMDD-XXX)
+    // ===== SUPABASE INITIALIZATION ===== //
+    const supabaseUrl = 'https://srycuvlhqsflsesakguc.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNyeWN1dmxocXNmbHNlc2FrZ3VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAxNDQ4NDUsImV4cCI6MjA2NTcyMDg0NX0.j5ekzUz0ZNLAWAp1KSWwXaQcCOsJ3MSOR66_G7ykrmQ';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // Generate order ID
     function generateOrderId() {
       const now = new Date();
       const datePart = now.toISOString().slice(0,10).replace(/-/g, '');
@@ -821,7 +822,7 @@
     }
 
     // Form submission
-    document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    document.getElementById('quoteForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       // Validate form
@@ -843,46 +844,36 @@
       
       // Get form values
       const formData = {
-        orderId: orderId,
-        timestamp: new Date().toISOString(),
-        itemUrl: document.getElementById('itemUrl').value || 'Not provided',
-        customerCity: document.getElementById('customerCity').value,
-        deliveryAddress: document.getElementById('deliveryAddress').value,
+        order_id: orderId,
+        item_url: document.getElementById('itemUrl').value || null,
+        customer_city: document.getElementById('customerCity').value,
+        delivery_address: document.getElementById('deliveryAddress').value,
         phone1: document.getElementById('phone1').value,
-        phone2: document.getElementById('phone2').value || 'None',
-        notes: document.getElementById('notes').value || 'None'
+        phone2: document.getElementById('phone2').value || null,
+        notes: document.getElementById('notes').value || null,
+        status: 'quote_requested'
       };
       
-      // Create WhatsApp message draft for admin
-      const whatsappMsg = `Hello, this is Shippera regarding your order #${orderId}.%0A%0A` +
-                         `We've received your request to ship from ${formData.customerCity}.%0A` +
-                         `Your quote is: [INSERT_AMOUNT] IQD%0A` +
-                         `Expected delivery: [INSERT_DAYS] days%0A%0A` +
-                         `Please reply with "CONFIRM" to proceed or ask any questions.`;
-      
-      const googleFormData = new FormData();
-for (const key in formData) {
-  googleFormData.append(key, formData[key]);
-}
+      try {
+        // Insert into Supabase
+        const { data, error } = await supabase
+          .from('submissions')
+          .insert([formData])
+          .select();
 
-fetch(scriptURL, {
-  method: 'POST',
-  body: googleFormData
-})
+        if (error) throw error;
 
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Success:', data);
-        
         // Show confirmation to customer
         document.getElementById('orderIdDisplay').textContent = orderId;
         document.getElementById('orderConfirmation').classList.add('show');
         document.getElementById('quoteForm').style.display = 'none';
+        
+        // Create WhatsApp message draft for admin
+        const whatsappMsg = `Hello, this is Shippera regarding your order #${orderId}.%0A%0A` +
+                           `We've received your request to ship from ${formData.customer_city}.%0A` +
+                           `Your quote is: [INSERT_AMOUNT] IQD%0A` +
+                           `Expected delivery: [INSERT_DAYS] days%0A%0A` +
+                           `Please reply with "CONFIRM" to proceed or ask any questions.`;
         
         // Show admin reference (hidden from customers)
         document.getElementById('adminPhone').textContent = formData.phone1;
@@ -895,18 +886,17 @@ fetch(scriptURL, {
         
         // Scroll to confirmation
         document.getElementById('orderConfirmation').scrollIntoView({ behavior: 'smooth' });
-      })
-      .catch(error => {
+        
+      } catch (error) {
         console.error('Error:', error);
         document.getElementById('formSuccess').textContent = 'There was an error submitting your form. Please try again.';
         document.getElementById('formSuccess').classList.add('show');
-      })
-      .finally(() => {
+      } finally {
         // Reset submit button
         submitBtn.disabled = false;
         submitText.textContent = 'Submit Order Request';
         submitSpinner.style.display = 'none';
-      });
+      }
     });
 
     // Order Tracking Modal
@@ -930,7 +920,7 @@ fetch(scriptURL, {
       trackingError.classList.remove('show');
     });
 
-    trackOrderBtn.addEventListener('click', function() {
+    trackOrderBtn.addEventListener('click', async function() {
       const orderId = document.getElementById('trackOrderId').value.trim();
       if (!orderId) {
         trackingError.textContent = 'Please enter your order ID';
@@ -946,15 +936,19 @@ fetch(scriptURL, {
       trackSpinner.style.display = 'inline-block';
       trackOrderBtn.disabled = true;
       
-      // Simulate API call with timeout
-      setTimeout(() => {
-        // Reset button
-        trackBtnText.textContent = 'Track Order';
-        trackSpinner.style.display = 'none';
-        trackOrderBtn.disabled = false;
-        
-        // Here you would normally check with your database
-        // For demo, we'll just show the status
+      try {
+        // Query Supabase
+        const { data, error } = await supabase
+          .from('submissions')
+          .select('status, created_at')
+          .eq('order_id', orderId)
+          .single();
+
+        if (error || !data) {
+          throw new Error('Order not found');
+        }
+
+        // Show status UI
         trackingStatus.style.display = 'block';
         trackingError.classList.remove('show');
         
@@ -963,19 +957,28 @@ fetch(scriptURL, {
           item.classList.remove('status-complete');
         });
         
-        // Simulate different statuses based on order ID
+        // Always show "Order Received" as complete
         document.querySelector('.status-item.status-complete').classList.add('status-complete');
         
-        if (orderId.includes('-')) {
-          document.getElementById('statusProcessing').classList.add('status-complete');
-        }
-        if (orderId.startsWith('SHIP-2023')) {
-          document.getElementById('statusShipping').classList.add('status-complete');
-        }
-        if (orderId.endsWith('111')) {
-          document.getElementById('statusDelivered').classList.add('status-complete');
-        }
-      }, 1500);
+        // Update based on actual status
+        const statusMap = {
+          'quote_requested': ['statusProcessing'],
+          'quote_sent': ['statusProcessing', 'statusShipping'],
+          'delivered': ['statusProcessing', 'statusShipping', 'statusDelivered']
+        };
+        
+        (statusMap[data.status] || []).forEach(id => {
+          document.getElementById(id).classList.add('status-complete');
+        });
+        
+      } catch (error) {
+        trackingError.textContent = error.message;
+        trackingError.classList.add('show');
+      } finally {
+        trackBtnText.textContent = 'Track Order';
+        trackSpinner.style.display = 'none';
+        trackOrderBtn.disabled = false;
+      }
     });
 
     // Close modal when clicking outside
@@ -998,5 +1001,7 @@ fetch(scriptURL, {
     });
   </script>
 
+  <!-- Load Supabase JS at the end -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </body>
 </html>
