@@ -736,7 +736,7 @@
     <p>&copy; 2025 Shippera. All rights reserved.</p>
   </footer>
 
-  <script>
+   <script>
     // ===== SUPABASE INITIALIZATION ===== //
     const supabaseUrl = 'https://srycuvlhqsflsesakguc.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNyeWN1dmxocXNmbHNlc2FrZ3VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAxNDQ4NDUsImV4cCI6MjA2NTcyMDg0NX0.j5ekzUz0ZNLAWAp1KSWwXaQcCOsJ3MSOR66_G7ykrmQ';
@@ -750,7 +750,7 @@
       return `SHIP-${datePart}-${randomPart}`;
     }
 
-    // City suggestions functionality
+    // City suggestions functionality (unchanged)
     const cityInput = document.getElementById('customerCity');
     const citySuggestions = document.getElementById('citySuggestions');
     const cityOptions = document.querySelectorAll('.city-option');
@@ -781,18 +781,16 @@
       });
     });
 
-    // Close suggestions when clicking outside
     document.addEventListener('click', function(e) {
       if (e.target !== cityInput) {
         citySuggestions.classList.remove('show');
       }
     });
 
-    // Form validation
+    // Form validation (unchanged)
     function validateForm() {
       let isValid = true;
       
-      // Validate city
       if (!cityInput.value) {
         document.getElementById('cityError').classList.add('show');
         isValid = false;
@@ -800,7 +798,6 @@
         document.getElementById('cityError').classList.remove('show');
       }
       
-      // Validate address
       const address = document.getElementById('deliveryAddress').value;
       if (!address) {
         document.getElementById('addressError').classList.add('show');
@@ -809,7 +806,6 @@
         document.getElementById('addressError').classList.remove('show');
       }
       
-      // Validate phone
       const phone1 = document.getElementById('phone1').value;
       if (!/^(\+964|0)?7[0-9]{8,9}$/.test(phone1)) {
         document.getElementById('phoneError').classList.add('show');
@@ -821,85 +817,65 @@
       return isValid;
     }
 
-    // Form submission
+    // ===== UPDATED FORM SUBMISSION ===== //
     document.getElementById('quoteForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      // Validate form
       if (!validateForm()) {
+        alert('Please complete all required fields correctly');
         return;
       }
-      
-      // Disable submit button and show loading
+
       const submitBtn = document.getElementById('submitBtn');
-      const submitText = document.getElementById('submitText');
-      const submitSpinner = document.getElementById('submitSpinner');
-      
       submitBtn.disabled = true;
-      submitText.textContent = 'Processing...';
-      submitSpinner.style.display = 'inline-block';
-      
-      // Generate order ID
-      const orderId = generateOrderId();
-      
-      // Get form values
-      const formData = {
-        order_id: orderId,
-        item_url: document.getElementById('itemUrl').value || null,
-        customer_city: document.getElementById('customerCity').value,
-        delivery_address: document.getElementById('deliveryAddress').value,
-        phone1: document.getElementById('phone1').value,
-        phone2: document.getElementById('phone2').value || null,
-        notes: document.getElementById('notes').value || null,
-        status: 'quote_requested'
-      };
+      document.getElementById('submitText').textContent = 'Processing...';
+      document.getElementById('submitSpinner').style.display = 'inline-block';
       
       try {
-        // Insert into Supabase
-        const { data, error } = await supabase
+        const formData = {
+          order_id: generateOrderId(),
+          item_url: document.getElementById('itemUrl').value || null,
+          customer_city: document.getElementById('customerCity').value,
+          delivery_address: document.getElementById('deliveryAddress').value,
+          phone1: document.getElementById('phone1').value,
+          phone2: document.getElementById('phone2').value || null,
+          notes: document.getElementById('notes').value || null,
+          status: 'quote_requested',
+          created_at: new Date().toISOString()
+        };
+
+        console.log('Form data being submitted:', formData); // Debugging
+        
+        const { error } = await supabase
           .from('submissions')
-          .insert([formData])
-          .select();
+          .insert([formData]);
 
         if (error) throw error;
-
-        // Show confirmation to customer
-        document.getElementById('orderIdDisplay').textContent = orderId;
+        
+        // Show success message
+        document.getElementById('orderIdDisplay').textContent = formData.order_id;
         document.getElementById('orderConfirmation').classList.add('show');
         document.getElementById('quoteForm').style.display = 'none';
         
-        // Create WhatsApp message draft for admin
-        const whatsappMsg = `Hello, this is Shippera regarding your order #${orderId}.%0A%0A` +
-                           `We've received your request to ship from ${formData.customer_city}.%0A` +
-                           `Your quote is: [INSERT_AMOUNT] IQD%0A` +
-                           `Expected delivery: [INSERT_DAYS] days%0A%0A` +
-                           `Please reply with "CONFIRM" to proceed or ask any questions.`;
-        
-        // Show admin reference (hidden from customers)
+        // Admin tools
         document.getElementById('adminPhone').textContent = formData.phone1;
-        document.getElementById('whatsappMessage').value = decodeURIComponent(whatsappMsg);
-        document.getElementById('whatsappLink').href = `https://wa.me/${formData.phone1.replace(/^0/, '964')}?text=${whatsappMsg}`;
+        const whatsappMsg = `New order #${formData.order_id} from ${formData.customer_city}`;
+        document.getElementById('whatsappLink').href = `https://wa.me/${formData.phone1.replace(/^0/, '964')}?text=${encodeURIComponent(whatsappMsg)}`;
         document.getElementById('adminPanel').classList.add('show');
         
-        // Save to localStorage
-        localStorage.setItem('shipperaOrderId', orderId);
-        
-        // Scroll to confirmation
-        document.getElementById('orderConfirmation').scrollIntoView({ behavior: 'smooth' });
-        
+        localStorage.setItem('shipperaOrderId', formData.order_id);
+
       } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('formSuccess').textContent = 'There was an error submitting your form. Please try again.';
-        document.getElementById('formSuccess').classList.add('show');
+        console.error('Submission error:', error);
+        alert('Failed to submit form. Please try again or contact support.');
       } finally {
-        // Reset submit button
         submitBtn.disabled = false;
-        submitText.textContent = 'Submit Order Request';
-        submitSpinner.style.display = 'none';
+        document.getElementById('submitText').textContent = 'Submit Order Request';
+        document.getElementById('submitSpinner').style.display = 'none';
       }
     });
 
-    // Order Tracking Modal
+    // Order Tracking Modal (unchanged)
     const trackOrderLink = document.getElementById('trackOrderLink');
     const trackingModal = document.getElementById('trackingModal');
     const closeModal = document.getElementById('closeModal');
@@ -928,7 +904,6 @@
         return;
       }
       
-      // Show loading
       const trackBtnText = document.getElementById('trackBtnText');
       const trackSpinner = document.getElementById('trackSpinner');
       
@@ -937,30 +912,23 @@
       trackOrderBtn.disabled = true;
       
       try {
-        // Query Supabase
         const { data, error } = await supabase
           .from('submissions')
           .select('status, created_at')
           .eq('order_id', orderId)
           .single();
 
-        if (error || !data) {
-          throw new Error('Order not found');
-        }
+        if (error || !data) throw new Error('Order not found');
 
-        // Show status UI
         trackingStatus.style.display = 'block';
         trackingError.classList.remove('show');
         
-        // Reset all statuses first
         document.querySelectorAll('.status-item').forEach(item => {
           item.classList.remove('status-complete');
         });
         
-        // Always show "Order Received" as complete
         document.querySelector('.status-item.status-complete').classList.add('status-complete');
         
-        // Update based on actual status
         const statusMap = {
           'quote_requested': ['statusProcessing'],
           'quote_sent': ['statusProcessing', 'statusShipping'],
@@ -981,7 +949,6 @@
       }
     });
 
-    // Close modal when clicking outside
     window.addEventListener('click', function(e) {
       if (e.target === trackingModal) {
         trackingModal.classList.remove('show');
@@ -991,7 +958,6 @@
       }
     });
 
-    // Check for saved order ID on page load
     window.addEventListener('DOMContentLoaded', function() {
       const savedOrderId = localStorage.getItem('shipperaOrderId');
       if (savedOrderId && window.location.hash === '#track-order') {
