@@ -58,6 +58,7 @@
     .nav-links {
       display: flex;
       gap: 25px;
+      align-items: center;
     }
 
     .nav-links a {
@@ -69,6 +70,33 @@
 
     .nav-links a:hover {
       color: var(--blue-accent);
+    }
+
+    .language-switcher {
+      display: flex;
+      gap: 10px;
+      margin-left: 20px;
+    }
+
+    .language-btn {
+      background: transparent;
+      border: 1px solid var(--white);
+      color: var(--white);
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+
+    .language-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .language-btn.active {
+      background: var(--white);
+      color: var(--navy);
+      font-weight: 600;
     }
 
     .hero {
@@ -543,6 +571,7 @@
       
       .nav-links {
         gap: 15px;
+        flex-direction: column;
       }
       
       .form-container {
@@ -561,6 +590,11 @@
       .airtable-form-container {
         padding: 40px 10px;
       }
+      
+      .language-switcher {
+        margin-left: 0;
+        margin-top: 15px;
+      }
     }
   </style>
 </head>
@@ -572,19 +606,25 @@
       Shippera
     </a>
     <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#how-it-works">How it Works</a>
-      <a href="#order-form">Get Quote</a>
-      <a href="#track-order" id="trackOrderLink">Track Order</a>
-      <a href="#contact">Contact</a>
+      <a href="#" data-en="Home" data-ku="سەرەکی">Home</a>
+      <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات">How it Works</a>
+      <a href="#order-form" data-en="Get Quote" data-ku="نرخ">Get Quote</a>
+      <a href="#contact" data-en="Contact" data-ku="پەیوەندی">Contact</a>
+      <div class="language-switcher">
+        <button class="language-btn active" data-lang="en">EN</button>
+        <button class="language-btn" data-lang="ku">KU</button>
+      </div>
     </div>
   </nav>
 
   <section class="hero">
     <div class="hero-text">
-      <h1>Global Shipping, Simplified</h1>
-      <p>Import goods from the USA and China to Erbil with trusted, professional service. Shippera handles it all.</p>
-      <a href="#order-form" class="cta-button">Get Quote Now</a>
+      <h1 data-en="Global Shipping, Simplified" data-ku="گواستنەوەی جیهانی، سادەکراو">Global Shipping, Simplified</h1>
+      <p data-en="Import goods from the USA and China to Erbil with trusted, professional service. Shippera handles it all." 
+         data-ku="کاڵا لە ویلایەتە یەکگرتووەکان و چین بۆ هەولێر بگوازەرەوە بە خزمەتگوزاری پیشەگەر و متمانەپێکراو. شیپێرا هەمووی ئەنجام دەدات.">
+        Import goods from the USA and China to Erbil with trusted, professional service. Shippera handles it all.
+      </p>
+      <a href="#order-form" class="cta-button" data-en="Get Quote Now" data-ku="نرخێک وەرگرە">Get Quote Now</a>
     </div>
     <div class="hero-image">
       <img src="images/plane.png" alt="Cargo Plane" />
@@ -592,28 +632,37 @@
   </section>
 
   <section class="how-it-works" id="how-it-works">
-    <h2 class="section-title">How It Works</h2>
+    <h2 class="section-title" data-en="How It Works" data-ku="چۆن کار دەکات">How It Works</h2>
     <div class="steps">
       <div class="step">
         <img src="images/contact.png" alt="Contact">
-        <h3>1. Submit Request</h3>
-        <p>Fill out our simple form with your shipping details</p>
+        <h3 data-en="1. Submit Request" data-ku="١. داواکاری بنێرە">1. Submit Request</h3>
+        <p data-en="Fill out our simple form with your shipping details" 
+           data-ku="فۆرمە سادەکەمان پڕ بکەرەوە بە زانیاری گواستنەوەکەت">
+          Fill out our simple form with your shipping details
+        </p>
       </div>
       <div class="step">
         <img src="images/price.png" alt="Quote">
-        <h3>2. Get a Quote</h3>
-        <p>We'll calculate and send you pricing within 24 hours</p>
+        <h3 data-en="2. Get a Quote" data-ku="٢. نرخێک وەرگرە">2. Get a Quote</h3>
+        <p data-en="We'll calculate and send you pricing within 24 hours" 
+           data-ku="ئێمە نرخەکە دەخەمڵێنین و لە ماوەی ٢٤ کاتژمێرێک بۆ دەنێرین">
+          We'll calculate and send you pricing within 24 hours
+        </p>
       </div>
       <div class="step">
         <img src="images/pay.png" alt="Payment">
-        <h3>3. Confirm & Ship</h3>
-        <p>Approve the quote and we'll handle everything else</p>
+        <h3 data-en="3. Confirm & Ship" data-ku="٣. پشتڕاست بکەوە و بگوازەرەوە">3. Confirm & Ship</h3>
+        <p data-en="Approve the quote and we'll handle everything else" 
+           data-ku="نرخەکە پشتڕاست بکەوە و ئێمە خۆمان بە هەموو شتێکی تر دەگرین">
+          Approve the quote and we'll handle everything else
+        </p>
       </div>
     </div>
   </section>
 
   <section class="airtable-form-container" id="order-form">
-    <h2 class="airtable-form-title">Order with Shippera</h2>
+    <h2 class="airtable-form-title" data-en="Order with Shippera" data-ku="داواکاری لەگەڵ شیپێرا">Order with Shippera</h2>
     <iframe class="airtable-embed" 
             src="https://airtable.com/embed/appHSmc6sePFhIcyR/pagaUVqxNomBRG471/form" 
             frameborder="0" 
@@ -625,7 +674,7 @@
   </section>
 
   <section class="payments">
-    <h2 class="section-title">We Accept</h2>
+    <h2 class="section-title" data-en="We Accept" data-ku="قبوڵ دەکەین">We Accept</h2>
     <div class="payment-methods">
       <img src="images/FIB-logo.png" alt="FIB">
       <img src="images/fastpay-logo.png" alt="FastPay">
@@ -633,69 +682,68 @@
     </div>
   </section>
 
-  <!-- Order Tracking Modal -->
-  <div class="modal" id="trackingModal">
-    <div class="modal-content">
-      <span class="close-modal" id="closeModal">&times;</span>
-      <h2 class="section-title">Track Your Order</h2>
-      <div class="form-group">
-        <label for="trackOrderId">Enter Your Order ID</label>
-        <input type="text" id="trackOrderId" class="form-control" placeholder="e.g., SHIP-123456">
-        <div class="error-message" id="trackingError"></div>
-        <button id="trackOrderBtn" class="submit-btn" style="margin-top: 15px;">
-          <span id="trackBtnText">Track Order</span>
-          <span id="trackSpinner" class="spinner" style="display: none;"></span>
-        </button>
-      </div>
-      
-      <div class="tracking-status" id="trackingStatus" style="display: none;">
-        <h3>Order Status</h3>
-        <div class="status-item status-complete">
-          <div class="status-icon">✓</div>
-          <div>
-            <strong>Order Received</strong>
-            <p>We've received your request</p>
-          </div>
-        </div>
-        <div class="status-item" id="statusProcessing">
-          <div class="status-icon">⏳</div>
-          <div>
-            <strong>Processing</strong>
-            <p>Getting your quote ready</p>
-          </div>
-        </div>
-        <div class="status-item" id="statusShipping">
-          <div class="status-icon">✈️</div>
-          <div>
-            <strong>Shipping</strong>
-            <p>Your item is on the way</p>
-          </div>
-        </div>
-        <div class="status-item" id="statusDelivered">
-          <div class="status-icon">📦</div>
-          <div>
-            <strong>Delivery</strong>
-            <p>Ready for pickup/delivery</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer id="contact">
     <h3>Shippera - Global Logistics</h3>
     <div class="footer-links">
-      <a href="#">Home</a>
-      <a href="#how-it-works">How it Works</a>
-      <a href="#order-form">Get Quote</a>
-      <a href="#track-order">Track Order</a>
+      <a href="#" data-en="Home" data-ku="سەرەکی">Home</a>
+      <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات">How it Works</a>
+      <a href="#order-form" data-en="Get Quote" data-ku="نرخ">Get Quote</a>
       <a href="https://instagram.com/shippera.krd" target="_blank">Instagram</a>
     </div>
-    <p>Email: info@shippera.com</p>
+    <p data-en="Email: info@shippera.com" data-ku="ئیمەیڵ: info@shippera.com">Email: info@shippera.com</p>
     <p>&copy; 2025 Shippera. All rights reserved.</p>
   </footer>
 
   <script>
+    // Language Switching Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const languageBtns = document.querySelectorAll('.language-btn');
+      const langElements = document.querySelectorAll('[data-en], [data-ku]');
+      
+      // Check for saved language preference
+      const savedLang = localStorage.getItem('shipperaLang') || 'en';
+      setLanguage(savedLang);
+      
+      // Set active button
+      languageBtns.forEach(btn => {
+        if (btn.dataset.lang === savedLang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      
+      // Add click event to language buttons
+      languageBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.dataset.lang;
+          setLanguage(lang);
+          
+          // Update active button
+          languageBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Save preference
+          localStorage.setItem('shipperaLang', lang);
+        });
+      });
+      
+      function setLanguage(lang) {
+        langElements.forEach(element => {
+          if (element.dataset[lang]) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+              element.placeholder = element.dataset[lang];
+            } else {
+              element.textContent = element.dataset[lang];
+            }
+          }
+        });
+        
+        // Update HTML lang attribute
+        document.documentElement.lang = lang;
+      }
+    });
+
     // Google Sheets Integration Setup
     // Replace this with your actual Google Apps Script deployment URL
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxPdqle6-RAHhxWlQ_RvkRHlUfOIcVSvQ4K9hlfSDzPCb8GkhgSgyCvRYXqoNsyIoeA/exec';
@@ -707,94 +755,6 @@
       const randomPart = Math.floor(100 + Math.random() * 900);
       return `SHIP-${datePart}-${randomPart}`;
     }
-
-    // Order Tracking Modal
-    const trackOrderLink = document.getElementById('trackOrderLink');
-    const trackingModal = document.getElementById('trackingModal');
-    const closeModal = document.getElementById('closeModal');
-    const trackOrderBtn = document.getElementById('trackOrderBtn');
-    const trackingStatus = document.getElementById('trackingStatus');
-    const trackingError = document.getElementById('trackingError');
-
-    trackOrderLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      trackingModal.classList.add('show');
-      document.getElementById('trackOrderId').focus();
-    });
-
-    closeModal.addEventListener('click', function() {
-      trackingModal.classList.remove('show');
-      trackingStatus.style.display = 'none';
-      trackingError.textContent = '';
-      trackingError.classList.remove('show');
-    });
-
-    trackOrderBtn.addEventListener('click', function() {
-      const orderId = document.getElementById('trackOrderId').value.trim();
-      if (!orderId) {
-        trackingError.textContent = 'Please enter your order ID';
-        trackingError.classList.add('show');
-        return;
-      }
-      
-      // Show loading
-      const trackBtnText = document.getElementById('trackBtnText');
-      const trackSpinner = document.getElementById('trackSpinner');
-      
-      trackBtnText.textContent = 'Tracking...';
-      trackSpinner.style.display = 'inline-block';
-      trackOrderBtn.disabled = true;
-      
-      // Simulate API call with timeout
-      setTimeout(() => {
-        // Reset button
-        trackBtnText.textContent = 'Track Order';
-        trackSpinner.style.display = 'none';
-        trackOrderBtn.disabled = false;
-        
-        // Here you would normally check with your database
-        // For demo, we'll just show the status
-        trackingStatus.style.display = 'block';
-        trackingError.classList.remove('show');
-        
-        // Reset all statuses first
-        document.querySelectorAll('.status-item').forEach(item => {
-          item.classList.remove('status-complete');
-        });
-        
-        // Simulate different statuses based on order ID
-        document.querySelector('.status-item.status-complete').classList.add('status-complete');
-        
-        if (orderId.includes('-')) {
-          document.getElementById('statusProcessing').classList.add('status-complete');
-        }
-        if (orderId.startsWith('SHIP-2023')) {
-          document.getElementById('statusShipping').classList.add('status-complete');
-        }
-        if (orderId.endsWith('111')) {
-          document.getElementById('statusDelivered').classList.add('status-complete');
-        }
-      }, 1500);
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', function(e) {
-      if (e.target === trackingModal) {
-        trackingModal.classList.remove('show');
-        trackingStatus.style.display = 'none';
-        trackingError.textContent = '';
-        trackingError.classList.remove('show');
-      }
-    });
-
-    // Check for saved order ID on page load
-    window.addEventListener('DOMContentLoaded', function() {
-      const savedOrderId = localStorage.getItem('shipperaOrderId');
-      if (savedOrderId && window.location.hash === '#track-order') {
-        trackingModal.classList.add('show');
-        document.getElementById('trackOrderId').value = savedOrderId;
-      }
-    });
   </script>
 
 </body>
