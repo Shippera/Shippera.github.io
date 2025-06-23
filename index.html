@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,11 +30,11 @@
       line-height: 1.6;
     }
 
+    /* Improved Navigation */
     nav {
       background-color: var(--navy);
       padding: 15px 20px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       position: sticky;
@@ -48,9 +47,9 @@
       align-items: center;
       color: var(--white);
       font-weight: 600;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       text-decoration: none;
-      margin-bottom: 10px;
+      z-index: 101;
     }
 
     .logo img {
@@ -58,18 +57,25 @@
       margin-right: 8px;
     }
 
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 101;
+    }
+
     .nav-container {
       display: flex;
-      width: 100%;
-      justify-content: space-between;
       align-items: center;
     }
 
     .nav-links {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       align-items: center;
-      flex-wrap: wrap;
     }
 
     .nav-links a {
@@ -78,7 +84,6 @@
       font-weight: 500;
       transition: all 0.3s;
       font-size: 0.95rem;
-      padding: 5px 0;
     }
 
     .nav-links a:hover {
@@ -112,22 +117,12 @@
       font-weight: 600;
     }
 
-    /* Mobile Menu Toggle */
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 5px;
-    }
-
+    /* Hero Section */
     .hero {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       background-color: var(--white);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       text-align: center;
@@ -135,7 +130,7 @@
 
     .hero-text {
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
       margin-bottom: 30px;
     }
 
@@ -143,113 +138,269 @@
       font-size: 2rem;
       color: var(--navy);
       margin-bottom: 15px;
+      line-height: 1.3;
     }
 
     .hero-text p {
       font-size: 1rem;
       margin-bottom: 25px;
+      color: var(--steel);
     }
 
     .cta-button {
       background-color: var(--blue-accent);
       color: var(--white);
-      padding: 10px 20px;
+      padding: 12px 25px;
       border-radius: 5px;
       text-decoration: none;
       font-weight: 600;
       display: inline-block;
       transition: background 0.3s;
-      font-size: 0.95rem;
+      font-size: 1rem;
+    }
+
+    .cta-button:hover {
+      background: #1a6fd8;
     }
 
     .hero-image {
       width: 100%;
       max-width: 500px;
-      margin: 0 auto;
     }
 
     .hero-image img {
       width: 100%;
       height: auto;
       border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    /* Rest of your existing styles... */
+    /* How It Works Section */
+    .how-it-works {
+      background: var(--light-gray);
+      padding: 60px 20px;
+      text-align: center;
+    }
 
-    @media (min-width: 768px) {
-      nav {
-        padding: 15px 30px;
-        flex-wrap: nowrap;
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 40px;
+      color: var(--navy);
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--cargo-brown);
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .step {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s;
+    }
+
+    .step:hover {
+      transform: translateY(-5px);
+    }
+
+    .step img {
+      height: 50px;
+      margin-bottom: 15px;
+    }
+
+    .step h3 {
+      margin-bottom: 10px;
+      color: var(--cargo-brown);
+      font-size: 1.2rem;
+    }
+
+    .step p {
+      font-size: 0.95rem;
+    }
+
+    /* Payments Section */
+    .payments {
+      background: var(--white);
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .payment-methods {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .payment-methods img {
+      height: 35px;
+      transition: all 0.3s;
+    }
+
+    /* Airtable Form */
+    .airtable-form-container {
+      background: var(--white);
+      padding: 50px 15px;
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+
+    .airtable-form-title {
+      text-align: center;
+      font-size: 1.8rem;
+      color: var(--navy);
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .airtable-form-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--cargo-brown);
+    }
+
+    .airtable-embed {
+      background: transparent;
+      border: 1px solid #ddd !important;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--navy);
+      color: var(--white);
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 50px;
+    }
+
+    footer h3 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .footer-links a {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-accent);
+    }
+
+    footer p {
+      margin: 10px 0;
+      font-size: 0.95rem;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
       }
-      
-      .logo {
-        margin-bottom: 0;
-      }
-      
-      .nav-container {
-        width: auto;
-        justify-content: flex-end;
-      }
-      
+
       .nav-links {
-        flex-wrap: nowrap;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--navy);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 100;
       }
-      
+
+      .nav-links.active {
+        transform: translateY(0);
+      }
+
+      .language-switcher {
+        margin-left: 0;
+        margin-top: 20px;
+      }
+
       .hero {
-        flex-direction: row;
-        text-align: left;
-        padding: 60px 30px;
+        padding: 40px 15px;
       }
-      
-      .hero-text {
-        margin-bottom: 0;
-        padding-right: 30px;
-      }
-      
+
       .hero-text h1 {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
       }
-      
-      .hero-text p {
-        font-size: 1.1rem;
+
+      .section-title {
+        font-size: 1.6rem;
       }
-      
-      .cta-button {
-        padding: 12px 25px;
+
+      .steps {
+        gap: 15px;
       }
-      
-      .language-btn {
-        padding: 5px 10px;
-        font-size: 0.8rem;
+
+      .step {
+        padding: 20px;
       }
     }
 
     @media (max-width: 480px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
-        padding-top: 15px;
-      }
-      
-      .nav-links.show {
-        display: flex;
-      }
-      
-      .language-switcher {
-        margin-left: 0;
-        justify-content: center;
-        width: 100%;
-        padding-top: 10px;
-      }
-      
-      .menu-toggle {
-        display: block;
-      }
-      
       .hero-text h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+      }
+
+      .cta-button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+
+      .airtable-form-title {
+        font-size: 1.5rem;
+      }
+
+      footer h3 {
+        font-size: 1.3rem;
       }
     }
   </style>
@@ -261,14 +412,19 @@
       <img src="images/shippera.png" alt="Shippera Logo" />
       Shippera
     </a>
-    <div class="nav-links">
-      <a href="#" data-en="Home" data-ku="سەرەکی">Home</a>
-      <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات">How it Works</a>
-      <a href="#order-form" data-en="Get Quote" data-ku="نرخ">Get Quote</a>
-      <a href="#contact" data-en="Contact" data-ku="پەیوەندی">Contact</a>
-      <div class="language-switcher">
-        <button class="language-btn active" data-lang="en">EN</button>
-        <button class="language-btn" data-lang="ku">KU</button>
+    
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    
+    <div class="nav-container">
+      <div class="nav-links" id="navLinks">
+        <a href="#" data-en="Home" data-ku="سەرەکی">Home</a>
+        <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات">How it Works</a>
+        <a href="#order-form" data-en="Get Quote" data-ku=" نرخ وەرگرتن">Get Quote</a>
+        <a href="#contact" data-en="Contact" data-ku="پەیوەندی کردن">Contact</a>
+        <div class="language-switcher">
+          <button class="language-btn active" data-lang="en">EN</button>
+          <button class="language-btn" data-lang="ku">KU</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -277,7 +433,7 @@
     <div class="hero-text">
       <h1 data-en="Global Shipping, Simplified" data-ku="گواستنەوەی جیهانی، بە ئاسانترین شێوە">Global Shipping, Simplified</h1>
       <p data-en="Import goods from the USA and China to Erbil with trusted, professional service. Shippera handles it all." 
-         data-ku="کاڵا لە ویلایەتە یەکگرتووەکان و چین بۆ هەولێر بگوازەرەوە بە خزمەتگوزاری ڕاستەوخۆ و متمانەپێکراو. شیپێرا کارەکانت ئەنجام دەدات.">
+         data-ku="کاڵا لە ویلایەتە یەکگرتووەکان و چین بۆ کوردستان بگوازەرەوە بە خزمەتگوزاری ڕاستەوخۆ و متمانەپێکراو. شیپێرا کارەکانت ئەنجام دەدات.">
         Import goods from the USA and China to Erbil with trusted, professional service. Shippera handles it all.
       </p>
       <a href="#order-form" class="cta-button" data-en="Get Quote Now" data-ku="نرخ وەربگرە">Get Quote Now</a>
@@ -351,6 +507,25 @@
   </footer>
 
   <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    menuToggle.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+      document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    });
+    
+    // Close menu when a link is clicked (for mobile)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          navLinks.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
     // Language Switching Functionality
     document.addEventListener('DOMContentLoaded', function() {
       const languageBtns = document.querySelectorAll('.language-btn');
@@ -401,10 +576,8 @@
     });
 
     // Google Sheets Integration Setup
-    // Replace this with your actual Google Apps Script deployment URL
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxPdqle6-RAHhxWlQ_RvkRHlUfOIcVSvQ4K9hlfSDzPCb8GkhgSgyCvRYXqoNsyIoeA/exec';
     
-    // Generate date-based order ID (SHIP-YYYYMMDD-XXX)
     function generateOrderId() {
       const now = new Date();
       const datePart = now.toISOString().slice(0,10).replace(/-/g, '');
