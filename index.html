@@ -558,6 +558,34 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
 
+    /* RTL Support for Arabic */
+    [dir="rtl"] {
+      text-align: right;
+    }
+
+    [dir="rtl"] .hero {
+      flex-direction: row-reverse;
+    }
+
+    [dir="rtl"] .steps {
+      direction: rtl;
+    }
+
+    [dir="rtl"] .language-switcher {
+      margin-left: 0;
+      margin-right: 20px;
+    }
+
+    [dir="rtl"] .logo img {
+      margin-right: 0;
+      margin-left: 10px;
+    }
+
+    [dir="rtl"] .status-icon {
+      margin-right: 0;
+      margin-left: 15px;
+    }
+
     /* Responsive Styles */
     @media (max-width: 768px) {
       .hero {
@@ -595,6 +623,10 @@
         margin-left: 0;
         margin-top: 15px;
       }
+
+      [dir="rtl"] .language-switcher {
+        margin-right: 0;
+      }
     }
   </style>
 </head>
@@ -606,25 +638,32 @@
       Shippera
     </a>
     <div class="nav-links">
-      <a href="#" data-en="Home" data-ku="سەرەکی">Home</a>
-      <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات">How it Works</a>
-      <a href="#order-form" data-en="Get Quote" data-ku="نرخ">Get Quote</a>
-      <a href="#contact" data-en="Contact" data-ku="پەیوەندی">Contact</a>
+      <a href="#" data-en="Home" data-ku="سەرەکی" data-ar="الرئيسية">Home</a>
+      <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات" data-ar="كيف يعمل">How it Works</a>
+      <a href="#order-form" data-en="Get Quote" data-ku="نرخ" data-ar="احصل على سعر">Get Quote</a>
+      <a href="#contact" data-en="Contact" data-ku="پەیوەندی" data-ar="اتصل بنا">Contact</a>
       <div class="language-switcher">
         <button class="language-btn active" data-lang="en">EN</button>
         <button class="language-btn" data-lang="ku">KU</button>
+        <button class="language-btn" data-lang="ar">AR</button>
       </div>
     </div>
   </nav>
 
   <section class="hero">
     <div class="hero-text">
-      <h1 data-en="Global Shipping, Simplified" data-ku="گواستنەوەی جیهانی، بە ئاسانترین شێوە">Global Shipping, Simplified</h1>
-      <p data-en="Import goods from the USA and China to Erbil with trusted, professional service. Shippera handles it all." 
-         data-ku="کاڵا لە ویلایەتە یەکگرتووەکان و چین بۆ هەولێر بگوازەرەوە بە خزمەتگوزاری ڕاستەوخۆ و متمانەپێکراو. شیپێرا کارەکانت ئەنجام دەدات.">
+      <h1 data-en="Global Shipping, Simplified" 
+          data-ku="گواستنەوەی جیهانی، بە ئاسانترین شێوە" 
+          data-ar="الشحن العالمي، مبسط">Global Shipping, Simplified</h1>
+      <p data-en="Import goods from the USA and China to Kurdistan & Iraq with trusted, professional service. Shippera handles it all." 
+         data-ku="کاڵا لە ویلایەتە یەکگرتووەکان و چین بۆ کوردستان و عێراق بگوازەرەوە بە خزمەتگوزاری ڕاستەوخۆ و متمانەپێکراو. شیپێرا کارەکانت ئەنجام دەدات."
+         data-ar="استيراد البضائع و طلبياتكم من الولايات المتحدة والصين إلى كردستان و العراق بخدمة موثوقة ومحترفة. شيبيرا يتولى كل شيء.">
         Import goods from the USA and China to Erbil with trusted, professional service. Shippera handles it all.
       </p>
-      <a href="#order-form" class="cta-button" data-en="Get Quote Now" data-ku="نرخ وەربگرە">Get Quote Now</a>
+      <a href="#order-form" class="cta-button" 
+         data-en="Get Quote Now" 
+         data-ku="نرخ وەربگرە" 
+         data-ar="احصل على سعر الآن">Get Quote Now</a>
     </div>
     <div class="hero-image">
       <img src="images/plane.png" alt="Cargo Plane" />
@@ -632,29 +671,41 @@
   </section>
 
   <section class="how-it-works" id="how-it-works">
-    <h2 class="section-title" data-en="How It Works" data-ku="چۆن کار دەکات">How It Works</h2>
+    <h2 class="section-title" 
+        data-en="How It Works" 
+        data-ku="چۆن کار دەکات" 
+        data-ar="كيف يعمل">How It Works</h2>
     <div class="steps">
       <div class="step">
         <img src="images/contact.png" alt="Contact">
-        <h3 data-en="1. Submit Request" data-ku="١. داواکاری بنێرە">1. Submit Request</h3>
+        <h3 data-en="1. Submit Request" 
+            data-ku="١. داواکاری بنێرە" 
+            data-ar="١. تقديم الطلب">1. Submit Request</h3>
         <p data-en="Fill out our simple form with your shipping details" 
-           data-ku="فۆرمە سادەکەمان پڕ بکەرەوە بە زانیاری پێویست">
+           data-ku="فۆرمە سادەکەمان پڕ بکەرەوە بە زانیاری پێویست"
+           data-ar="املأ نموذجنا البسيط ببيانات الشحن الخاصة بك">
           Fill out our simple form with your shipping details
         </p>
       </div>
       <div class="step">
         <img src="images/price.png" alt="Quote">
-        <h3 data-en="2. Get a Quote" data-ku="٢. نرخێک وەرگرە">2. Get a Quote</h3>
+        <h3 data-en="2. Get a Quote" 
+            data-ku="٢. نرخێک وەرگرە" 
+            data-ar="٢. احصل على سعر">2. Get a Quote</h3>
         <p data-en="We'll calculate and send you pricing within 24 hours" 
-           data-ku="ئێمە نرخەکە دەخەمڵێنین و لە ماوەی ٢٤ کاتژمێر پەیوەندیتان پێوە دەکەین">
+           data-ku="ئێمە نرخەکە دەخەمڵێنین و لە ماوەی ٢٤ کاتژمێر پەیوەندیتان پێوە دەکەین"
+           data-ar="سنقوم بتسعير الطلبية وإرسالها إليك في غضون 24 ساعة">
           We'll calculate and send you pricing within 24 hours
         </p>
       </div>
       <div class="step">
         <img src="images/pay.png" alt="Payment">
-        <h3 data-en="3. Confirm & Ship" data-ku="٣. پشتڕاست بکەوە و بگوازەرەوە">3. Confirm & Ship</h3>
+        <h3 data-en="3. Confirm & Ship" 
+            data-ku="٣. پشتڕاست بکەوە و بگوازەرەوە" 
+            data-ar="٣. تأكيد وشحن">3. Confirm & Ship</h3>
         <p data-en="Approve the quote and we'll handle everything else" 
-           data-ku="داواکرییەکەت پشتڕاست بکەوە و ئێمە خۆمان بە هەموو شتێکی تر دەکەین">
+           data-ku="داواکرییەکەت پشتڕاست بکەوە و ئێمە خۆمان بە هەموو شتێکی تر دەکەین"
+           data-ar="وافق على السعر وسنقوم بكل شيء آخر">
           Approve the quote and we'll handle everything else
         </p>
       </div>
@@ -662,7 +713,10 @@
   </section>
 
   <section class="airtable-form-container" id="order-form">
-    <h2 class="airtable-form-title" data-en="Order with Shippera" data-ku="داواکردن لەگەڵ شیپێرا">Order with Shippera</h2>
+    <h2 class="airtable-form-title" 
+        data-en="Order with Shippera" 
+        data-ku="داواکردن لەگەڵ شیپێرا" 
+        data-ar="اطلب مع شيبيرا">Order with Shippera</h2>
     <iframe class="airtable-embed" 
             src="https://airtable.com/embed/appHSmc6sePFhIcyR/pagaUVqxNomBRG471/form" 
             frameborder="0" 
@@ -674,7 +728,10 @@
   </section>
 
   <section class="payments">
-    <h2 class="section-title" data-en="We Accept" data-ku="چۆنیەتی پارەدان ">We Accept</h2>
+    <h2 class="section-title" 
+        data-en="We Accept" 
+        data-ku="چۆنیەتی پارەدان" 
+        data-ar="نقبل">We Accept</h2>
     <div class="payment-methods">
       <img src="images/FIB-logo.png" alt="FIB">
       <img src="images/fastpay-logo.png" alt="FastPay">
@@ -685,12 +742,14 @@
   <footer id="contact">
     <h3>Shippera - Global Logistics</h3>
     <div class="footer-links">
-      <a href="#" data-en="Home" data-ku="سەرەکی">Home</a>
-      <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات">How it Works</a>
-      <a href="#order-form" data-en="Get Quote" data-ku=" وەرگرتنی نرخ">Get Quote</a>
+      <a href="#" data-en="Home" data-ku="سەرەکی" data-ar="الرئيسية">Home</a>
+      <a href="#how-it-works" data-en="How it Works" data-ku="چۆن کار دەکات" data-ar="كيف يعمل">How it Works</a>
+      <a href="#order-form" data-en="Get Quote" data-ku=" وەرگرتنی نرخ" data-ar="احصل على سعر">Get Quote</a>
       <a href="https://instagram.com/shippera.krd" target="_blank">Instagram</a>
     </div>
-    <p data-en="Email: shipperakrd@gmail.com" data-ku="ئیمەیڵ: shipperakrd@gmail.com">Email: shipperakrd@gmail.com</p>
+    <p data-en="Email: shipperakrd@gmail.com" 
+       data-ku="ئیمەیڵ: shipperakrd@gmail.com" 
+       data-ar="البريد الإلكتروني: shipperakrd@gmail.com">Email: shipperakrd@gmail.com</p>
     <p>&copy; 2025 Shippera. All rights reserved.</p>
   </footer>
 
@@ -698,7 +757,7 @@
     // Language Switching Functionality
     document.addEventListener('DOMContentLoaded', function() {
       const languageBtns = document.querySelectorAll('.language-btn');
-      const langElements = document.querySelectorAll('[data-en], [data-ku]');
+      const langElements = document.querySelectorAll('[data-en], [data-ku], [data-ar]');
       
       // Check for saved language preference
       const savedLang = localStorage.getItem('shipperaLang') || 'en';
@@ -739,8 +798,13 @@
           }
         });
         
-        // Update HTML lang attribute
+        // Update HTML lang attribute and direction for Arabic
         document.documentElement.lang = lang;
+        if (lang === 'ar') {
+          document.documentElement.dir = 'rtl';
+        } else {
+          document.documentElement.dir = 'ltr';
+        }
       }
     });
 
